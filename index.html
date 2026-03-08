@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F1 Racing Admin</title>
+
+<style>
+body{
+margin:0;
+background:radial-gradient(circle at center,#222,#000);
+color:white;
+font-family:'Segoe UI',sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.container{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,0.1);
+border-radius:30px;
+padding:40px;
+width:90%;
+max-width:400px;
+box-shadow:0 20px 40px rgba(0,0,0,0.5);
+text-align:center;
+}
+
+.logo{
+font-size:2.5em;
+font-weight:800;
+color:#E10600;
+margin-bottom:20px;
+letter-spacing:2px;
+}
+
+.f1-logo-img{
+width:100%;
+max-width:250px;
+margin-bottom:20px;
+}
+
+input,textarea{
+width:100%;
+padding:15px;
+margin:10px 0;
+border-radius:20px;
+border:none;
+background:rgba(255,255,255,0.1);
+color:white;
+box-sizing:border-box;
+transition:0.3s;
+}
+
+input:focus,textarea:focus{
+background:rgba(255,255,255,0.2);
+outline:none;
+box-shadow:0 0 10px #E10600;
+}
+
+button{
+background:#E10600;
+color:white;
+border:none;
+padding:15px;
+width:100%;
+border-radius:20px;
+font-size:1.1em;
+cursor:pointer;
+transition:0.3s;
+margin-top:10px;
+}
+
+button:hover{
+background:#ff2d00;
+transform:scale(1.02);
+}
+
+.success-text{
+font-size:1.8em;
+font-weight:800;
+text-shadow:2px 2px 0px #E10600;
+margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="form-container">
+
+<img src="https://i.postimg.cc/1zb0k9GG/logo-f1-removebg-preview.png" class="f1-logo-img">
+
+<form id="anketaForm">
+
+<input type="text" name="name" placeholder="Ім'я та Прізвище" required>
+
+<input type="text" name="contact" placeholder="@username" required>
+
+<textarea name="about" placeholder="Розкажіть про себе" required></textarea>
+
+<input type="text" name="phone" placeholder="Номер телефону" required>
+
+<button type="submit">Надіслати Анкету</button>
+
+</form>
+</div>
+
+<div class="container" id="message" style="display:none;">
+
+<img src="https://i.postimg.cc/1zb0k9GG/logo-f1-removebg-preview.png" class="f1-logo-img">
+
+<div class="success-text">Анкету надіслано!</div>
+
+</div>
+
+<script>
+
+document.getElementById('anketaForm').onsubmit = async (e)=>{
+
+e.preventDefault()
+
+const token="8680742174:AAEqfI6SMjVUdheFPpUYcrhOGo4PuLH3Xlc"
+
+const chat_id="-1003866882588"
+
+let name=document.querySelector('[name="name"]').value
+let contact=document.querySelector('[name="contact"]').value
+let about=document.querySelector('[name="about"]').value
+let phone=document.querySelector('[name="phone"]').value
+
+let text=`🏎 Нова анкета F1
+
+👤 Ім'я: ${name}
+
+📱 Контакт: ${contact}
+
+📞 Телефон: ${phone}
+
+📝 Про себе:
+${about}`
+
+await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+chat_id:chat_id,
+
+text:text
+
+})
+
+})
+
+document.getElementById('form-container').style.display='none'
+
+document.getElementById('message').style.display='block'
+
+}
+
+</script>
+
+</body>
+</html>
